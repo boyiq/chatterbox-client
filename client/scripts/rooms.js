@@ -5,6 +5,7 @@
 var Rooms = {
 
   // TODO: Define how you want to store the list of rooms
+  _initialized: false,
   _data: null,
   _roomStorage: {},
   _previousRoundStorage: null,
@@ -31,60 +32,69 @@ var Rooms = {
       }
     }
 
-    this._previousRoundStorage = JSON.parse(JSON.stringify(allMessages));
-    //console.log(this._previousRoundStorage);
+    this._initialized = true;
+    this._previousRoundStorage = JSON.stringify(allMessages);
+    //console.log('first round of room storage is ' + this._previousRoundStorage);
+    console.log('state of storage: ', this._roomStorage);
   },
 
   _updateRoomStorage: function () {
-    //need an old storage, and a new storage to compare
-    //the new storage is Messages._data;
-    this._oldStorageLast = this._previousRoundStorage[99].message_id;
-    //create a variable called targetIDfirstOld, which is the messageId of the zeroth index of the old storage
-    this._oldStorageFirst = this._previousRoundStorage[0].message_id;
-    //create a variale called targetIDlastOld, which is the messageID of the last index of the old storage
-    this._newStorageLast = Messages._data[99].message_id;
-    //create a variable called targetIDfirstNew, which is the messageId of the zeroth index of the new storage
-    this._newStorageFirst = Messages._data[0].message_id;
-    //create a variale called targetIDlastNew, which is the messageID of the last index of the new storage
+    if (this._previousRoundStorage !== JSON.stringify(Messages._data)) {
+      let previousRoundStorage = JSON.parse(this._previousRoundStorage);
 
-    // ABOVE EQUATES TO MESSAGE ID
+      this._oldStorageLast = previousRoundStorage[99].message_id;
+      this._oldStorageFirst = previousRoundStorage[0].message_id;
+      this._newStorageLast = Messages._data[99].message_id;
+      this._newStorageFirst = Messages._data[0].message_id;
 
-    //----------ADDING-----------//
-    // set up a while loop that message_id does not equal to targetIDFirstOld
-    var index = 0;
-    var currMessage = Messages._data[index];
-    var currNewID = currMessage.message_id;
-    var currNewRoomname = currMessage.roomname;
-    while (currNewID !== this._oldStorageFirst) {
-      console.log('current comparison ID: ', currNewId, 'target ID: ', this._oldStorageFirst);
-      if (this._roomStorage[currNewRoomname]) {
-        this._roomStorage[currNewRoomname]++;
-      } else {
-        this._roomStorage[currNewRoomname] = 1;
-      }
-      index++;
-    }
+      //----------ADDING-----------//
+      // set up a while loop that message_id does not equal to targetIDFirstOld
+      var index = 0;
+      do {
+        var currMessage = Messages._data[index];
+        var currNewID = currMessage.message_id;
+        var currNewRoomname = currMessage.roomname;
+        //console.log('current comparison ID: ', currNewID, 'target ID: ', this._oldStorageFirst);
+        if (this._roomStorage[currNewRoomname]) {
+          this._roomStorage[currNewRoomname]++;
+          console.log('storage was incremented: ', currNewRoomname);
+
+        } else {
+          this._roomStorage[currNewRoomname] = 1;
+        }
+        index ++;
+        console.log(currNewID, 'should never be smaller or equal to ', this._oldStorageFirst);
+      } while (currNewID > this._oldStorageFirst + 1); // moving ID, target ID
+
+
 
       //for each of the added new datapoints, increment the corresponding room count or create new roomnames
+      //----------DECREMENTING ROOMS-----------//
+      var bottomUpIndex = 99;
+      do {
+        var currMessageOld = previousRoundStorage[bottomUpIndex]; // last message of new data
+        var currOldID = currMessageOld.message_id;
+        var currOldRoomname = currMessageOld.roomname;
+        console.log('current comparison ID: ', currOldID, 'target ID: ', this._newStorageLast);
+        if (this._roomStorage[currOldRoomname]) {
+          this._roomStorage[currOldRoomname]--;
+        } else {
+          console.error('room name doesnt exist');
+        }
+        bottomUpIndex--;
+        // 51 - 1155  frist of the old data that's not shared    51 of the
+        // 50 - 1157  last of shared data ,   50th of the old data
+      } while (currOldID !== this._newStorageLast);
+      // set up a while loop that message_id does not equal to targetIDLastOld
 
+        //for each of the expired datapoints, decrement the corresponding room count
 
-    //----------DECREMENTING ROOMS-----------//
-    // set up a while loop that message_id does not equal to targetIDLastOld
-      //for each of the expired datapoints, decrement the corresponding room count
-
-    console.log('state of storage: ', this._roomStorage);
-    //this._previousRoundStorage = JSON.parse(JSON.stringify(allMessages));
+      console.log('state of storage: ', this._roomStorage);
+      //this._previousRoundStorage = JSON.parse(JSON.stringify(allMessages));
+    } else {
+      console.log('everything is the same, this worked');
+    }
   },
-
-
-
-
-  //Create function called initializeRooms:
-  //Iterate over the entire 100 data ponits obtained from server
-    //check the roomname property of every object, if the current roomname exists in the roomname storage object:
-       //increment the value of that roomname by 1
-    //if not,
-      //create a property with taht roomname and let value equate to one
 
 
 

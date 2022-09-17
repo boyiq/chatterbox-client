@@ -19,10 +19,11 @@ var App = {
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
+
     //Run the roominitializer one time here;
 
     //Make app.fetch run every 1s, 1000ms.
-    setTimeout(() => { App.fetch(call = () =>{}); }, 15000); //100 second refresh
+    setTimeout(() => { App.fetch(call = () =>{}); }, 20000); //100 second refresh
     // TODO: Make sure the app loads data from the API
     // continually, instead of just once at the start.
   },
@@ -34,15 +35,11 @@ var App = {
       Messages._data = data;
       //console.log(Rooms._data);
       callback();
-      var timesInitalized = false;
-      if (!timesInitalized) {
+      if (!Rooms._initialized) {
         Rooms._initializeRooms();
-        timesInitalized = true;
-      }
-      if (timesInitalized) {
+      } else {
         Rooms._updateRoomStorage();
       }
-
       // TODO: Use the data to update Messages and Rooms
       // and re-render the corresponding views.
     });
