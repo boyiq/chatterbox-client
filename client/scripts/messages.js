@@ -24,9 +24,8 @@ var Messages = {
 /*
 create (message, (success) add to data, (failure) console error))
 */
-  _add: function(message, username, ) {
-
-    Parse.create(message, add)
+  _add: function(message) {
+    console.log('added');
   }
 
   // TODO: Define methods which allow you to retrieve from,
