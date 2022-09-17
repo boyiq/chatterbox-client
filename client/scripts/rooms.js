@@ -10,4 +10,15 @@ var Rooms = {
   // TODO: Define methods which allow you to add rooms, update the list,
   // mark a room as selected, etc.
 
+
+  /*
+  ADD
+  on click of 'Add Room'
+
+
+  UPDATE
+  repopulate the dropdown menu for room list
+
+  */
+
 };
