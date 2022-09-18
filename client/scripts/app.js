@@ -23,7 +23,7 @@ var App = {
     //Run the roominitializer one time here;
 
     //Make app.fetch run every 1s, 1000ms.
-    setTimeout(() => { App.fetch(call = () =>{}); }, 20000); //100 second refresh
+    setInterval(() => { App.fetch(call = () =>{}); }, 20000); //100 second refresh
     // TODO: Make sure the app loads data from the API
     // continually, instead of just once at the start.
   },

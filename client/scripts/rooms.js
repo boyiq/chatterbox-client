@@ -13,15 +13,11 @@ var Rooms = {
   _oldStorageLast: null,
   _newStorageFirst: null,
   _newStorageLast: null,
-  //_dataFirstRound: null;
-  //create a vairable to store the very first room storage
-
-  //Create a roomname storage obejct, start empty
 
   // TODO: Define methods which allow you to add rooms, update the list,
   // mark a room as selected, etc.
   _initializeRooms: function() {
-    //console.log('goodbye', Messages._data);
+
     let allMessages = Messages._data;
     for (let i = 0; i < allMessages.length; i++) {
       let currentRoomName = allMessages[i].roomname;
@@ -58,7 +54,6 @@ var Rooms = {
         if (this._roomStorage[currNewRoomname]) {
           this._roomStorage[currNewRoomname]++;
           console.log('storage was incremented: ', currNewRoomname);
-
         } else {
           this._roomStorage[currNewRoomname] = 1;
         }
@@ -66,28 +61,21 @@ var Rooms = {
         console.log(currNewID, 'should never be smaller or equal to ', this._oldStorageFirst);
       } while (currNewID > this._oldStorageFirst + 1); // moving ID, target ID
 
-
-
-      //for each of the added new datapoints, increment the corresponding room count or create new roomnames
       //----------DECREMENTING ROOMS-----------//
-      var bottomUpIndex = 99;
-      do {
-        var currMessageOld = previousRoundStorage[bottomUpIndex]; // last message of new data
-        var currOldID = currMessageOld.message_id;
+      var currOldID = undefined;
+      var buIndex = previousRoundStorage.length - 1;
+      while (previousRoundStorage[buIndex].message_id !== this._newStorageLast) {
+        var currMessageOld = previousRoundStorage[buIndex]; // last message of new data
+        currOldID = currMessageOld.message_id;
         var currOldRoomname = currMessageOld.roomname;
-        console.log('current comparison ID: ', currOldID, 'target ID: ', this._newStorageLast);
+        //console.log('current comparison ID: ', currOldID, 'target ID: ', this._newStorageLast);
         if (this._roomStorage[currOldRoomname]) {
           this._roomStorage[currOldRoomname]--;
         } else {
-          console.error('room name doesnt exist');
+          console.error('room name doesnt exist' + currOldRoomname);
         }
-        bottomUpIndex--;
-        // 51 - 1155  frist of the old data that's not shared    51 of the
-        // 50 - 1157  last of shared data ,   50th of the old data
-      } while (currOldID !== this._newStorageLast);
-      // set up a while loop that message_id does not equal to targetIDLastOld
-
-        //for each of the expired datapoints, decrement the corresponding room count
+        buIndex--;
+      }
 
       console.log('state of storage: ', this._roomStorage);
       //this._previousRoundStorage = JSON.parse(JSON.stringify(allMessages));
