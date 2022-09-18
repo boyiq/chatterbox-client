@@ -15,7 +15,7 @@ var FormView = {
     event.preventDefault();
     var message = {};
     message.text = document.getElementById('message').value;
-    message.roomname = 'HHAHAHAHA';
+    message.roomname = 'Anewname';
     message.username = App.username;
 
     Parse.create(message, Messages._add(message));

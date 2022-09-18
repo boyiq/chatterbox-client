@@ -35,6 +35,7 @@ var Rooms = {
   },
 
   _updateRoomStorage: function () {
+    //console.log('rolling round of room storage is ' + JSON.stringify(Messages._data));
     if (this._previousRoundStorage !== JSON.stringify(Messages._data)) {
       let previousRoundStorage = JSON.parse(this._previousRoundStorage);
 
@@ -45,8 +46,9 @@ var Rooms = {
 
       //----------ADDING-----------//
       // set up a while loop that message_id does not equal to targetIDFirstOld
+      var currNewID = undefined;
       var index = 0;
-      do {
+      while (Messages._data[index].message_id !== this._oldStorageFirst) {
         var currMessage = Messages._data[index];
         var currNewID = currMessage.message_id;
         var currNewRoomname = currMessage.roomname;
@@ -82,6 +84,8 @@ var Rooms = {
     } else {
       console.log('everything is the same, this worked');
     }
+    this._previousRoundStorage = JSON.stringify(Messages._data);
+    //WE FORGOT ABOUT THIS!!! We need to update this so we are not comparing with the oldstorage from the 1st run everytime.
   },
 
 
