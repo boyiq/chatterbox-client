@@ -14,13 +14,12 @@ var App = {
     FormView.initialize();
     RoomsView.initialize();
     MessagesView.initialize();
-
+    Friends.initialize();
     // Fetch initial batch of messages
     App.startSpinner();
-    App.fetch(App.stopSpinner);
+    App.fetch(App.stopSpinningAndRenderRoomList);
 
 
-    //Run the roominitializer one time here;
 
     //Make app.fetch run every 1s, 1000ms.
     setInterval(() => { App.fetch(call = () =>{}); }, 20000); //100 second refresh
@@ -33,6 +32,9 @@ var App = {
       // examine the response from the server request:
       console.log('FETCH DATA:', data);
       Messages._data = data;
+      MessagesView.render();
+      RoomsView.render();
+
       //console.log(Rooms._data);
       callback();
       if (!Rooms._initialized) {
@@ -40,6 +42,8 @@ var App = {
       } else {
         Rooms._updateRoomStorage();
       }
+
+
       // TODO: Use the data to update Messages and Rooms
       // and re-render the corresponding views.
     });
@@ -53,5 +57,10 @@ var App = {
   stopSpinner: function() {
     App.$spinner.fadeOut('fast');
     FormView.setStatus(false);
+  },
+
+  stopSpinningAndRenderRoomList: function() {
+    //RoomsView.render();
+    App.stopSpinner();
   }
 };

@@ -6,6 +6,7 @@ var Messages = {
 
   // TODO: Define how you want to store your messages.
   _data: null,
+  _textData: [], //store all the text messages in here
 
   _storage: [],
 

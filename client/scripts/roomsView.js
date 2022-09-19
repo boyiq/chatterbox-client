@@ -12,11 +12,17 @@ var RoomsView = {
   },
 
   render: function() {
-    // TODO: Render out the list of rooms.
+    for (var key in Rooms._roomStorage) {
+      RoomsView.renderRoom(key);
+    }
+    console.log('"RoomsView.render() called"');
   },
 
   renderRoom: function(roomname) {
-    // TODO: Render out a single room.
+    var $singleRoom = RoomsView.template({
+      currentRoom: roomname
+    });
+    RoomsView.$select.append($singleRoom);
   },
 
   handleChange: function(event) {
@@ -25,6 +31,10 @@ var RoomsView = {
 
   handleClick: function(event) {
     // TODO: Handle the user clicking the "Add Room" button.
-  }
+  },
 
+  template: _.template(`
+    <option><%- currentRoom %></option>
+  `)
 };
+

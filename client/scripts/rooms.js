@@ -61,23 +61,23 @@ var Rooms = {
         }
         index ++;
         console.log(currNewID, 'should never be smaller or equal to ', this._oldStorageFirst);
-      } while (currNewID > this._oldStorageFirst + 1); // moving ID, target ID
+      } //while (currNewID > this._oldStorageFirst + 1); // moving ID, target ID
 
       //----------DECREMENTING ROOMS-----------//
-      var currOldID = undefined;
-      var buIndex = previousRoundStorage.length - 1;
-      while (previousRoundStorage[buIndex].message_id !== this._newStorageLast) {
-        var currMessageOld = previousRoundStorage[buIndex]; // last message of new data
-        currOldID = currMessageOld.message_id;
-        var currOldRoomname = currMessageOld.roomname;
-        //console.log('current comparison ID: ', currOldID, 'target ID: ', this._newStorageLast);
-        if (this._roomStorage[currOldRoomname]) {
-          this._roomStorage[currOldRoomname]--;
-        } else {
-          console.error('room name doesnt exist' + currOldRoomname);
-        }
-        buIndex--;
-      }
+      // var currOldID = undefined;
+      // var buIndex = previousRoundStorage.length - 1;
+      // while (previousRoundStorage[buIndex].message_id !== this._newStorageLast) {
+      //   var currMessageOld = previousRoundStorage[buIndex]; // last message of new data
+      //   currOldID = currMessageOld.message_id;
+      //   var currOldRoomname = currMessageOld.roomname;
+      //   //console.log('current comparison ID: ', currOldID, 'target ID: ', this._newStorageLast);
+      //   if (this._roomStorage[currOldRoomname]) {
+      //     this._roomStorage[currOldRoomname]--;
+      //   } else {
+      //     console.error('room name doesnt exist' + currOldRoomname);
+      //   }
+      //   buIndex--;
+      // }
 
       console.log('state of storage: ', this._roomStorage);
       //this._previousRoundStorage = JSON.parse(JSON.stringify(allMessages));
@@ -88,15 +88,17 @@ var Rooms = {
     //WE FORGOT ABOUT THIS!!! We need to update this so we are not comparing with the oldstorage from the 1st run everytime.
   },
 
-
-
   /*
   ADD
   on click of 'Add Room'
+  _addRoom: function() {
 
+    _updateRooms()
+  }
 
   UPDATE
   repopulate the dropdown menu for room list
+
 
   */
 
